@@ -15,6 +15,7 @@ public class CreateStudent extends HttpServlet {
     final static String URL = "jdbc:mysql://180.76.112.173/linux_final";
     final static String USER = "root";
     final static String PASS = "19816285010Liu!";
+    final static String SQL_INSERT_NOTEPAD = "INSERT INTO t_student(name, age) VALUES (?, ?)";
 
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
