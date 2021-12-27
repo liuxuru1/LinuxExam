@@ -1,3 +1,32 @@
+import java.io.*;
+import javax.servlet.*;
+import javax.servlet.http.*;
+import com.google.gson.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.PreparedStatement;
+import com.google.gson.reflect.TypeToken;
+import javax.servlet.annotation.WebServlet;
+
+@WebServlet(urlPatterns = "/UpdateStudent")
+public class UpdateStudent extends HttpServlet {
+   final static String JDBC_DRIVER = "com.mysql.cj.jdbc.Driver";
+   final static String URL = "jdbc:mysql://180.76.112.173/linux_final";
+   final static String USER = "root";
+   final static String PASS = "19816285010Liu!";
+   final static String SQL_UPDATE_STUDENT = "UPDATE t_student SET name = ? ,age = ? WHERE id=?";
+
+   public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+      response.setContentType("application/json");
+      response.setCharacterEncoding("UTF-8");
+
+      Student req = getRequestBody(request);
+      PrintWriter out = response.getWriter();
+
+      out.println(updatestudent(req));
+      out.flush();
+      out.close();
    }
 
    private Student getRequestBody(HttpServletRequest request) throws IOException {
@@ -21,11 +50,11 @@
          Class.forName(JDBC_DRIVER);
          conn = DriverManager.getConnection(URL, USER, PASS);
          stmt = conn.prepareStatement(SQL_UPDATE_STUDENT);
-
+         
          stmt.setString(1, req.name);
          stmt.setString(2, req.age);
          stmt.setInt(3, req.id);
-
+         
          int row = stmt.executeUpdate();
          if (row > 0)
             retcode = 1;
@@ -49,4 +78,3 @@
       return retcode;
    }
 }
-
